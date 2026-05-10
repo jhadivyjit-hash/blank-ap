@@ -1,0 +1,121 @@
+import streamlit as st
+
+st.set_page_config(page_title="AI Career Guidance", page_icon="🤖", layout="centered")
+
+# Custom CSS for confidence colors
+st.markdown("""
+<style>
+.high {color: #00C853; font-size:20px; font-weight:bold;}
+.medium {color: #FFD600; font-size:20px; font-weight:bold;}
+.low {color: #FF1744; font-size:20px; font-weight:bold;}
+</style>
+""", unsafe_allow_html=True)
+
+st.title("🤖 AI Career Guidance System")
+
+st.markdown("### Answer the questions below:")
+
+# ------------------ CAREER MCQs ------------------
+
+motivation = st.selectbox(
+    "🎯 Career Motivation - What matters most to you in a career?",
+    [
+        "High salary and growth",
+        "Creativity and innovation",
+        "Stability and security",
+        "Helping people and society",
+        "Leadership and influence"
+    ]
+)
+
+tech = st.selectbox(
+    "💻 Technology Comfort Level - How comfortable are you with learning new technologies or software tools?",
+    [
+        "Very comfortable — I enjoy exploring new tech",
+        "Comfortable with guidance",
+        "Neutral",
+        "Prefer familiar tools only"
+    ]
+)
+
+task = st.selectbox(
+    "🧠 Preferred Type of Tasks - Which task would you enjoy the most?",
+    [
+        "Writing code or automating systems",
+        "Designing visuals or user experiences",
+        "Analyzing business or financial data",
+        "Communicating, teaching, or counseling",
+        "Managing projects and teams"
+    ]
+)
+
+# ------------------ AI ANALYSIS ------------------
+
+if st.button("🚀 Analyze Career"):
+
+    career = ""
+    confidence = 0
+
+    if task == "Writing code or automating systems" and tech.startswith("Very"):
+        career = "Software Engineer / AI Developer"
+        confidence = 92
+    elif task.startswith("Designing"):
+        career = "UI/UX Designer / Creative Technologist"
+        confidence = 85
+    elif task.startswith("Analyzing"):
+        career = "Business Analyst / Commerce Professional"
+        confidence = 88
+    elif task.startswith("Communicating"):
+        career = "Teacher / Psychologist / Counselor"
+        confidence = 90
+    elif task.startswith("Managing"):
+        career = "Entrepreneur / Project Manager"
+        confidence = 84
+    else:
+        career = "Medical Field / Explore Multiple Career Options"
+        confidence = 70
+
+    # Confidence Color Logic
+    if confidence >= 85:
+        conf_class = "high"
+    elif confidence >= 70:
+        conf_class = "medium"
+    else:
+        conf_class = "low"
+
+    st.success(f"✨ Recommended Career: {career}")
+    st.markdown(f"📊 Confidence Level: <span class='{conf_class}'>{confidence}%</span>", unsafe_allow_html=True)
+    st.info("🤖 AI Explanation: Based on your motivation, comfort with technology, and preferred tasks, our AI logic matched you with this career path.")
+
+# ------------------ MINI QUIZ GAME ------------------
+
+st.markdown("---")
+st.header("🎮 Mini Career Knowledge Quiz")
+
+score = 0
+
+q1 = st.radio("1️⃣ AI stands for?", ["Automatic Intelligence", "Artificial Intelligence"])
+if q1 == "Artificial Intelligence":
+    score += 1
+
+q2 = st.radio("2️⃣ Which field uses coding the most?", ["Software Engineering", "History"])
+if q2 == "Software Engineering":
+    score += 1
+
+q3 = st.radio("3️⃣ Who manages business operations?", ["Manager", "Painter"])
+if q3 == "Manager":
+    score += 1
+
+q4 = st.radio("4️⃣ Doctors belong to which field?", ["Medical", "Mechanical Repair"])
+if q4 == "Medical":
+    score += 1
+
+q5 = st.radio("5️⃣ UI/UX Designers focus on?", ["User Experience", "Farming"])
+if q5 == "User Experience":
+    score += 1
+
+if st.button("📊 Submit Quiz"):
+    percentage = (score / 5) * 100
+    st.success(f"🎉 Your Score: {score}/5")
+    st.write(f"📈 Percentage: {percentage}%")
+    st.info("This quiz uses the percentage formula: (Score ÷ Total Questions) × 100")
